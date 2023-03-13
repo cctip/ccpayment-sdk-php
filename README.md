@@ -9,7 +9,7 @@ composer require ccpayment/php-sdk
 ```
 <?php
 
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::CheckUser("9454818","202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
@@ -26,7 +26,7 @@ var_dump($resp);
 
 #### Example:
 ```
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::GetSupportToken("202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
@@ -56,7 +56,7 @@ var_dump($resp);
 
 #### Example:
 ```
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::GetTokenChain(["token_id"=>"58f93c4d-ce0b-4c7c-af77-b4b299718715"], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
@@ -94,7 +94,7 @@ var_dump($resp);
 
 #### Example:
 ```
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::CreateOrder([
       "remark"=>"",
@@ -133,7 +133,7 @@ var_dump($resp);
 
 #### Example:
 ```
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::CheckoutUrl([
     "return_url"=>"https://cwallet.com/pay/callback",
@@ -167,7 +167,7 @@ var_dump($resp);
 
 #### Example:
 ```
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::Withdraw([
       "token_id"=>"85db36af-3282-4501-9357-67da32691ab7",//matic POLYGON
@@ -200,7 +200,7 @@ var_dump($resp);
 
 #### Example:
 ```
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::GetTokenRate(["token_id"=>"e8f64d3d-df5b-411d-897f-c6d8d30206b7","amount"=>"12"], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
@@ -225,7 +225,7 @@ var_dump($resp);
 
 #### Example:
 ```
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::NetworkFee(["token_id"=>"0912e09a-d8e2-41d7-a0bc-a25530892988"], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
@@ -251,7 +251,7 @@ var_dump($resp);
 
 #### Example:
 ```
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::Assets("202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4","");
 var_dump($resp);
@@ -281,7 +281,7 @@ var_dump($resp);
 
 #### Example:
 ```
-use CCPayment\CCPay;
+use CCPayment\v1\CCPay;
 
 $resp =  CCPay::CheckUser("9454818","202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
