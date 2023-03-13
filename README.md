@@ -11,7 +11,7 @@ composer require ccpayment/php-sdk
 
 use CCPayment\CCPay;
 
-$resp =  CCPay::CheckUser("9454818","202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
+$resp =  CCPay::CheckUser("9454818","202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 
 ```
@@ -28,7 +28,7 @@ var_dump($resp);
 ```
 use CCPayment\CCPay;
 
-$resp =  CCPay::GetSupportToken("202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
+$resp =  CCPay::GetSupportToken("202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 ```
 
@@ -58,7 +58,7 @@ var_dump($resp);
 ```
 use CCPayment\CCPay;
 
-$resp =  CCPay::GetTokenChain(["token_id"=>"58f93c4d-ce0b-4c7c-af77-b4b299718715"], "202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
+$resp =  CCPay::GetTokenChain(["token_id"=>"58f93c4d-ce0b-4c7c-af77-b4b299718715"], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 ```
 
@@ -102,7 +102,7 @@ $resp =  CCPay::CreateOrder([
       "amount"=>"0.5",
       "merchant_order_id"=>strval(time()).strval(rand(0,1000)),
       "fiat_currency"=> "USD"
-     ], "202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
+     ], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 ```
 
@@ -141,7 +141,7 @@ $resp =  CCPay::CheckoutUrl([
     "amount"=>"0.5",
     "merchant_order_id"=>strval(time()).strval(rand(0,1000)),
     "product_name"=> "knowledge is power"
-   ], "202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
+   ], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 ```
 
@@ -176,7 +176,7 @@ $resp =  CCPay::Withdraw([
 //    "address"=>"9454818",
       "value"=>"0.045",
      "merchant_order_id"=>strval(time()).strval(rand(0,1000))
-     ], "202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
+     ], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 ```
 
@@ -202,7 +202,7 @@ var_dump($resp);
 ```
 use CCPayment\CCPay;
 
-$resp =  CCPay::GetTokenRate(["token_id"=>"e8f64d3d-df5b-411d-897f-c6d8d30206b7","amount"=>"12"], "202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
+$resp =  CCPay::GetTokenRate(["token_id"=>"e8f64d3d-df5b-411d-897f-c6d8d30206b7","amount"=>"12"], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 ```
 
@@ -227,7 +227,7 @@ var_dump($resp);
 ```
 use CCPayment\CCPay;
 
-$resp =  CCPay::NetworkFee(["token_id"=>"0912e09a-d8e2-41d7-a0bc-a25530892988"], "202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
+$resp =  CCPay::NetworkFee(["token_id"=>"0912e09a-d8e2-41d7-a0bc-a25530892988"], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 ```
 
@@ -253,7 +253,7 @@ var_dump($resp);
 ```
 use CCPayment\CCPay;
 
-$resp =  CCPay::Assets("202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390","");
+$resp =  CCPay::Assets("202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4","");
 var_dump($resp);
 ```
 
@@ -283,7 +283,7 @@ var_dump($resp);
 ```
 use CCPayment\CCPay;
 
-$resp =  CCPay::CheckUser("9454818","202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
+$resp =  CCPay::CheckUser("9454818","202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 ```
 #### response
