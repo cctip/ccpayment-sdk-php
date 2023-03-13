@@ -1,6 +1,6 @@
 # php-sdk
 
-## doc: https://doc.ccpayment.com/ccpayment-for-merchant/home
+## Document Address: https://doc.ccpayment.com/ccpayment-for-merchant/home
 ## Install via composer
 ````
 composer require ccpayment/php-sdk
@@ -16,7 +16,7 @@ var_dump($resp);
 
 ```
 ## Reference API
-
+_________________
 ### Obtain the token list supported by merchants
 #### request:
 | Name       | Required | Type      | Description                                                                                                                                    |
@@ -46,6 +46,7 @@ var_dump($resp);
 | data.list.min      | Y        | string  | Minimum trading amount         |
 | data.list.logo     | Y        | string  | crypto logo                    |
 
+_________________
 ### Obtain the list of the available networks for a certain token
 #### request: 
 | Name       | Required | Type      | Description                                                   |
@@ -78,7 +79,7 @@ var_dump($resp);
 | data.list.logo       | Y        | string  | crypto logo                                 |
 | data.list.chain_logo | Y        | string  | Network logo                                |
 
-
+_________________
 ###  Create payment order
     Manage 100% of your front-end interactions and use our APIs to build your own checkout page.
 #### request:
@@ -119,6 +120,7 @@ var_dump($resp);
 | data.network     | Y        | string  | network                    |
 | data.pay_address | Y        | string  | payment address            |
 
+_________________
 ### Generate a checkout URL
 #### request:
 | Name               | Required | Type          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
@@ -153,7 +155,7 @@ var_dump($resp);
 | data                  | Y        | object  |                     |
 | data.payment_url      | Y        | string  | URL link of payment |
 
-
+_________________
 ### Call the withdrawal API to initiate withdrawals
 #### request:
 | Name               | Required | Type      | Description                                                                       |
@@ -189,6 +191,7 @@ var_dump($resp);
 | data.order_id    | Y        | string  | CCPayment order id |
 | data.network_fee | Y        | string  | network fee        |
 
+_________________
 ### The amount of USD converted into tokens
 #### request:
 | Name                | Required | Type        | Description                                                   |
@@ -215,6 +218,7 @@ var_dump($resp);
 | data.price     | Y        | string  | Crypto current price (in USD)    |
 | data.value     | Y        | string  | Number of corresponding currency |
 
+_________________
 ### Obtain the network fee of a certain network
 #### request:
 | Name                | Required | Type        | Description                                                                  |
@@ -241,6 +245,7 @@ var_dump($resp);
 | data.crypto   | Y        | string  | crypto symbol |
 | data.fee      | Y        | string  | network fee   |
 
+_________________
 ### Obtain details of merchant's assets
 #### request:
 | Name       | Required | Type     | Description                                                   |
@@ -271,6 +276,7 @@ var_dump($resp);
 | data.list.price      | Y        | string  | Crypto current price (in USD)     |
 | data.list.logo       | Y        | string  | crypto logo                       |
 
+_________________
 ### Check the Validity of Cwallet ID
 #### request:
 | Name       | Required | Type      | Description                                                                                                                                  |
@@ -295,4 +301,5 @@ var_dump($resp);
 | data.c_id     | Y        | string    | cwallet id       |
 | data.nickname | Y        | string    | cwallet nikename |
 
+_________________
 ### Notification of order callbacks
