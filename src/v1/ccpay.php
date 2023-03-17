@@ -49,7 +49,7 @@ class CCPay
 
     public static $appSecret = "";
 
-    public function setHeaders($appid, $appSecret)
+    public static function setHeaders($appid, $appSecret)
     {
         self::$headers[self::TIMESTAMP] = strval(time());
         self::$headers[self::APPID] = $appid;
@@ -467,7 +467,7 @@ class CCPay
         return $originData;
     }
 
-    public function SHA256Hex($originStr = ""): string
+    public static function SHA256Hex($originStr = ""): string
     {
         $str = self::$headers[self::APPID]. self::$appSecret.self::$headers[self::TIMESTAMP].$originStr;
         $re = hash('sha256', $str);
