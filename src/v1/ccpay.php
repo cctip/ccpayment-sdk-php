@@ -470,10 +470,9 @@ class CCPay
     public function SHA256Hex($originStr = ""): string
     {
         $str = self::$headers[self::APPID]. self::$appSecret.self::$headers[self::TIMESTAMP].$originStr;
-        $re = hash('sha256', $str, true);
-        $rets = bin2hex($re);
-        self::$headers[self::SIGN] = $rets;
-        return $rets;
+        $re = hash('sha256', $str);
+        self::$headers[self::SIGN] = $re;
+        return $re;
     }
 
 
