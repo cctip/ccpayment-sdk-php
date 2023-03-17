@@ -3,7 +3,7 @@
 ## Document Address: https://doc.ccpayment.com/ccpayment-for-merchant/home
 ## Install via composer
 ````
-composer require ccpayment/php-sdk
+composer require ccpayment/php-sdk:dev-master
 ````
 ## Example usage
 ```
