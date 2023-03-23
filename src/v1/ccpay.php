@@ -85,7 +85,7 @@ class CCPay
     public static function CreateOrder(array $originData, string $appId, string $appSecret): array
     {
 
-        if ( $originData["token_id"] == "" || $originData["amount"] == ""  || $originData["merchant_order_id"] == "") {
+        if ( $originData["token_id"] == "" ||  ($originData["amount"] == "" && $originData["product_price"] == "")   || $originData["merchant_order_id"] == "") {
             return ["code"=>10008, "msg"=>"param is err"];
         }
         $originData["fiat_currency"] = $originData["fiat_currency"]??"USD";
@@ -107,6 +107,7 @@ class CCPay
             "remark" => $originData["remark"],
             "token_id" => $originData["token_id"],
             "amount" => $originData["amount"],
+            "product_price" => $originData["product_price"],
             "merchant_order_id" => $originData["merchant_order_id"],
             "fiat_currency" => $originData["fiat_currency"] // 默认USD
         ];
@@ -256,7 +257,7 @@ class CCPay
      */
     public static function CheckoutUrl(array $originData, string $appId, string $appSecret): array
     {
-        if ($originData["product_name"] == ""  || $originData["amount"] == "" || $originData["merchant_order_id"] == "") {
+        if ($originData["product_name"] == ""  || ($originData["amount"] == "" && $originData["product_price"] == "")  || $originData["merchant_order_id"] == "") {
             return ["code"=>10008, "msg"=>"param is err"];
         }
 
@@ -276,7 +277,9 @@ class CCPay
         return [
             "return_url" => $originData["return_url"],
             "valid_timestamp" => $originData["valid_timestamp"],
+            "order_valid_period" => $originData["order_valid_period"],
             "amount" => $originData["amount"],
+            "product_price" => $originData["product_price"],
             "merchant_order_id" => $originData["merchant_order_id"],
             "product_name" => $originData["product_name"]
         ];
