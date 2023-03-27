@@ -1,6 +1,6 @@
 # php-sdk
 
-## Document Address: https://doc.ccpayment.com/ccpayment-for-merchant/home
+## Document Address: https://doc.ccpayment.com/ccpayment-for-merchant/ccpayment-introduction
 ## Install via composer
 ````
 composer require ccpayment/php-sdk:dev-master
