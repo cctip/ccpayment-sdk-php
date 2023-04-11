@@ -32,14 +32,14 @@ header('Content-type: application/json');
 //   var_dump($resp);
 
 // url
-$resp =  CCPay::CheckoutUrl( [
-    "return_url"=>"https://cwallet.com/",
-    "valid_timestamp"=>4566,
-    "amount"=>"0.5",
-    "merchant_order_id"=>strval(time()).strval(rand(0,1000)),
-    "product_name"=> "knowledge is power"
-],"202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4"); // "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4"
-var_dump($resp);
+//$resp =  CCPay::CheckoutUrl( [
+//    "return_url"=>"https://cwallet.com/",
+//    "valid_timestamp"=>4566,
+//    "amount"=>"0.5",
+//    "merchant_order_id"=>strval(time()).strval(rand(0,1000)),
+//    "product_name"=> "knowledge is power"
+//],"202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4"); // "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4"
+//var_dump($resp);
 
 //return
 
@@ -53,20 +53,20 @@ var_dump($resp);
 //$resp =  CCPay::GetTokenRate(["token_id"=>"e8f64d3d-df5b-411d-897f-c6d8d30206b7","amount"=>"12"],"202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 //var_dump($resp);
 //
-//$resp =  CCPay::Withdraw( [
-////    "token_id"=>"0912e09a-d8e2-41d7-a0bc-a25530892988",//Trc20
-////    "address"=>"TKWFdnbhgjno7ACQvZx1r4BZc7hkyeyLk8",
-////    "token_id"=>"f137d42c-f3a6-4f23-9402-76f0395d0cfe",//POLYGON
-////    "address"=>"0x4aa884f207c2e4003c450eb14a5e93d16a60e730",
-//    // 85db36af-3282-4501-9357-67da32691ab7
+$resp =  CCPay::Withdraw( [
+//    "token_id"=>"0912e09a-d8e2-41d7-a0bc-a25530892988",//Trc20
+//    "address"=>"TKWFdnbhgjno7ACQvZx1r4BZc7hkyeyLk8",
+//    "token_id"=>"f137d42c-f3a6-4f23-9402-76f0395d0cfe",//POLYGON
+//    "address"=>"0x4aa884f207c2e4003c450eb14a5e93d16a60e730",
+    // 85db36af-3282-4501-9357-67da32691ab7
 //    "token_id"=>"85db36af-3282-4501-9357-67da32691ab7",//matic POLYGON
 //    "address"=>"0x4aa884f207c2e4003c450eb14a5e93d16a60e730",
-////    "token_id"=>"8e5741cf-6e51-4892-9d04-3d40e1dd0128",//POLYGON  f137d42c-f3a6-4f23-9402-76f0395d0cfe
-////    "address"=>"9454818",
-//    "value"=>"0.045",
-//    "memo"=>"",
-//    "merchant_order_id"=>strval(time()).strval(rand(0,1000)),
-//],"202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
+    "token_id"=>"8e5741cf-6e51-4892-9d04-3d40e1dd0128",//POLYGON  f137d42c-f3a6-4f23-9402-76f0395d0cfe
+    "address"=>"herculew@protonmail.com",
+    "value"=>"0.045",
+    "memo"=>"",
+    "merchant_order_id"=>strval(time()).strval(rand(0,1000)),
+],"202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 //var_dump($resp);
 
 

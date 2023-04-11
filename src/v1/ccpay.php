@@ -89,6 +89,7 @@ class CCPay
             return ["code"=>10008, "msg"=>"param is err"];
         }
         $originData["fiat_currency"] = $originData["fiat_currency"]??"USD";
+        $originData["denomination_currency"] = $originData["denomination_currency"]??"USD";
 
         self::setHeaders($appId, $appSecret);
 
@@ -109,7 +110,8 @@ class CCPay
             "amount" => $originData["amount"],
             "product_price" => $originData["product_price"],
             "merchant_order_id" => $originData["merchant_order_id"],
-            "fiat_currency" => $originData["fiat_currency"] // 默认USD
+            "fiat_currency" => $originData["fiat_currency"], // 默认USD
+            "denomination_currency" => $originData["denomination_currency"] // 默认USD
         ];
     }
 
