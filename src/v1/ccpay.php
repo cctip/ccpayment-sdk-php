@@ -63,7 +63,7 @@ class CCPay
          * "token_id"=>"8e5741cf-6e51-4892-9d04-3d40e1dd0128",// required
          * "amount"=>"0.5", // required
          * "merchant_order_id"=>"3735077979050379", // merchant order, todo required
-         * "fiat_currency"=> "USD" // default USD
+         * "denomination_currency"=> "USD" // default USD
      * ];
      * @param string $appId
      * @param string $appSecret
@@ -88,8 +88,7 @@ class CCPay
         if ( $originData["token_id"] == "" ||  ($originData["amount"] == "" && $originData["product_price"] == "")   || $originData["merchant_order_id"] == "") {
             return ["code"=>10008, "msg"=>"param is err"];
         }
-        $originData["fiat_currency"] = $originData["fiat_currency"]??"USD";
-        $originData["denomination_currency"] = $originData["denomination_currency"]??"USD";
+        $originData["denominated_currency"] = $originData["denominated_currency"]??"USD";
 
         self::setHeaders($appId, $appSecret);
 
@@ -110,8 +109,7 @@ class CCPay
             "amount" => $originData["amount"],
             "product_price" => $originData["product_price"],
             "merchant_order_id" => $originData["merchant_order_id"],
-            "fiat_currency" => $originData["fiat_currency"], // 默认USD
-            "denomination_currency" => $originData["denomination_currency"] // 默认USD
+            "denominated_currency" => $originData["denominated_currency"] // 默认USD
         ];
     }
 

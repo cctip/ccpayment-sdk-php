@@ -83,15 +83,16 @@ _________________
 ###  Create payment order
     Manage 100% of your front-end interactions and use our APIs to build your own checkout page.
 #### request:
-| Name               | Required | Type      | Description                                                                      |
-|--------------------|----------|-----------|----------------------------------------------------------------------------------|
-| $token_id          | Y        | string    | Returned token_id form token chain                                               |
-| $amount            | Y        | string    | Amount of Merchant's orders  (in USD by default, cannot exceed 2 decimal places) |
-| $merchant_order_id | Y        | string    | Merchant orders, cannot be repeated                                              |
-| $fiat_currency     | Y        | string    | Fiat currency name (in USD by default),Other fiat currency,in development        |
-| $remark            | N        | string    | remark                                                                           |
-| $appid             | Y        | string    | the merchant will be provided with the credentials with appId                    |
-| $appSecret         | Y        | string    | appSecret                                                                        |
+| Name                  | Required | Type      | Description                                                                                |
+|-----------------------|----------|-----------|--------------------------------------------------------------------------------------------|
+| $token_id             | Y        | string    | Returned token_id form token chain                                                         |
+| $amount               | Y        | string    | Amount of Merchant's orders  (in USD by default, cannot exceed 2 decimal places)           |
+| $product_price        | Y        | string    | Amount of Merchant's orders  (in USD by default, cannot exceed 2 decimal places)           |
+| $merchant_order_id    | Y        | string    | Merchant orders, cannot be repeated                                                        |
+| $denominated_currency | Y        | string    | The currency for calculating the order price, it could be cryptocurrency or fiat currency  |
+| $remark               | N        | string    | remark                                                                                     |
+| $appid                | Y        | string    | the merchant will be provided with the credentials with appId                              |
+| $appSecret            | Y        | string    | appSecret                                                                                  |
 
 #### Example:
 ```
@@ -102,7 +103,7 @@ $resp =  CCPay::CreateOrder([
       "token_id"=>"f36ad1cf-222a-4933-9ad0-86df8069f916",
       "amount"=>"0.5",
       "merchant_order_id"=>strval(time()).strval(rand(0,1000)),
-      "fiat_currency"=> "USD"
+      "denominated_currency"=> "USD"
      ], "202301310325561620262074393440256","c4600b8125b7ed23b5b7b8ee4acb42f4");
 var_dump($resp);
 ```
