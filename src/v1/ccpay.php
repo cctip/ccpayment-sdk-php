@@ -37,6 +37,7 @@ class CCPay
         "CheckUser" => "https://admin.ccpayment.com/ccpayment/v1/check/user",
         "Assets" => "https://admin.ccpayment.com/ccpayment/v1/assets",
         "NetworkFee" => "https://admin.ccpayment.com/ccpayment/v1/network/fee",
+        "SupportCoin" => "https://admin.ccpayment.com/ccpayment/v1/coin/all",
     ];
 
 
@@ -438,6 +439,20 @@ class CCPay
         self::SHA256Hex($resource);
 
         return self::SendRequest(self::$urls["NetworkFee"], $resource);
+    }
+
+    /**
+     * @param string $appId
+     * @param string $appSecret
+     * @return array
+     */
+    public static function SupportCoin(string $appId, string $appSecret): array
+    {
+        self::setHeaders($appId, $appSecret);
+
+        self::SHA256Hex();
+
+        return self::SendRequest(self::$urls["SupportCoin"]);
     }
     /**
      * @param string $url
