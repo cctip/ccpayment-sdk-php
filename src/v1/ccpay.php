@@ -38,6 +38,7 @@ class CCPay
         "Assets" => "https://admin.ccpayment.com/ccpayment/v1/assets",
         "NetworkFee" => "https://admin.ccpayment.com/ccpayment/v1/network/fee",
         "SupportCoin" => "https://admin.ccpayment.com/ccpayment/v1/coin/all",
+        "OrderInfo" => "https://admin.ccpayment.com/ccpayment/v1/bill/info",
     ];
 
 
@@ -439,6 +440,19 @@ class CCPay
         self::SHA256Hex($resource);
 
         return self::SendRequest(self::$urls["NetworkFee"], $resource);
+    }
+
+    public static function OrderInfo(array $merchantOrderIds ,string $appId, string $appSecret): array
+    {
+        if ( empty($merchantOrderIds)) {
+            return ["code"=>10008, "msg"=>"param is err"];
+        }
+        self::setHeaders($appId, $appSecret);
+        $resource = json_encode(["merchant_order_ids"=>$merchantOrderIds]);
+
+        self::SHA256Hex($resource);
+
+        return self::SendRequest(self::$urls["OrderInfo"], $resource);
     }
 
     /**
