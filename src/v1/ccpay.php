@@ -62,11 +62,14 @@ class CCPay
     /**
      * @param array $originData
      * $originData = [
+         * "order_valid_period"=>45566, // int
          * "remark"=>"",
          * "token_id"=>"8e5741cf-6e51-4892-9d04-3d40e1dd0128",// required
          * "product_price"=>"0.5", // required
          * "merchant_order_id"=>"3735077979050379", // merchant order, todo required
          * "denomination_currency"=> "USD" // default USD
+         * "notify_url"=>"", // The URL address will be notified via a POST request when the order status changes. Ensure the URL is accessible to receive notifications from the payment platform.
+          "custom_value"=>"",// Merchant custom field - This custom value field will be returned in transaction status notification.
      * ];
      * @param string $appId
      * @param string $appSecret
@@ -76,19 +79,20 @@ class CCPay
         * "code": 10000,
         * "msg": "success",
         * "data": {
-            * "amount": "0.5",
-            * "bill_id": "202301090616511612332555323101184",
-            * "logo": "https://resource.cwallet.com/token/icon/usdt.png",
-            * "network": "TRC20",
-            * "pay_address": "TYWnk1EGALQyYst2yFSd29QQQTEkuKMbyt",
-            * "crypto": "USDT"
+            "product_price": "0.5",
+            "order_id": "202301090616511612332555323101184",
+            "logo": "https://resource.cwallet.com/token/icon/usdt.png",
+            "network": "TRC20",
+            "pay_address": "TYWnk1EGALQyYst2yFSd29QQQTEkuKMbyt",
+            "crypto": "USDT",
+            "order_valid_period":823456
         * }
     * }
      */
     public static function CreateOrder(array $originData, string $appId, string $appSecret): array
     {
 
-        if ( $originData["token_id"] == "" ||  ($originData["amount"] == "" && $originData["product_price"] == "")   || $originData["merchant_order_id"] == "") {
+        if ( empty($originData["token_id"]) ||  (empty($originData["amount"]) && empty($originData["product_price"]))   || empty($originData["merchant_order_id"])) {
             return ["code"=>10008, "msg"=>"param is err"];
         }
         $originData["denominated_currency"] = $originData["denominated_currency"]??"USD";
@@ -107,12 +111,15 @@ class CCPay
     public static function getCreateOrderData(array $originData): array
     {
         return [
-            "remark" => $originData["remark"],
+            "remark" => empty($originData["remark"])?:"",
+            "order_valid_period" => empty($originData["order_valid_period"])?:0,
             "token_id" => $originData["token_id"],
             "amount" => isset($originData["amount"])?:"",
             "product_price" => $originData["product_price"],
             "merchant_order_id" => $originData["merchant_order_id"],
-            "denominated_currency" => $originData["denominated_currency"] // 默认USD
+            "denominated_currency" => $originData["denominated_currency"], // 默认USD
+            "notify_url" => empty($originData["notify_url"])?:"",
+            "custom_value" => empty($originData["custom_value"])?:""
         ];
     }
 
@@ -221,7 +228,7 @@ class CCPay
     public static function GetTokenRate(array $originData, string $appId, string $appSecret): array
     {
 
-        if ($originData["token_id"] == "" || $originData["amount"] == "") {
+        if (empty($originData["token_id"]) || empty($originData["amount"] )) {
             return ["code"=>10008, "msg"=>"param is err"];
         }
         self::setHeaders($appId, $appSecret);
@@ -262,7 +269,7 @@ class CCPay
      */
     public static function CheckoutUrl(array $originData, string $appId, string $appSecret): array
     {
-        if (empty($originData["product_name"])  || ( empty($originData["amount"]) &&  empty($originData["product_price"]))  || $originData["merchant_order_id"]) {
+        if (empty($originData["product_name"])  || ( empty($originData["amount"]) &&  empty($originData["product_price"]))  || empty($originData["merchant_order_id"])) {
             return ["code"=>10008, "msg"=>"param is err"];
         }
 
@@ -282,9 +289,9 @@ class CCPay
         return [
             "return_url" => empty($originData["return_url"])?:"",
             "valid_timestamp" => isset($originData["valid_timestamp"])?:0,
-            "order_valid_period" => $originData["order_valid_period"],
+            "order_valid_period" => empty($originData["order_valid_period"])?:0,
             "amount" => isset($originData["amount"])?:"",
-            "product_price" => $originData["product_price"],
+            "product_price" => isset($originData["product_price"])?:"",
             "merchant_order_id" => $originData["merchant_order_id"],
             "product_name" => $originData["product_name"],
             "notify_url" => empty($originData["notify_url"])?:"",
@@ -361,11 +368,19 @@ class CCPay
      * @param string $appId
      * @param string $appSecret
      * @return array
+     * {
+        "code": 10000,
+        "msg": "success",
+        "data": {
+            "order_id": "202301090616511612332555323101184",
+            "network_fee": "0",
+        }
+    }
      */
     public static function Withdraw(array $originData, string $appId, string $appSecret): array
     {
 
-        if (empty($originData["token_id"]) == "" || empty($originData["value"]) || empty($originData["address"]) ||  empty($originData["merchant_order_id"])) {
+        if (empty($originData["token_id"])  || empty($originData["value"]) || empty($originData["address"]) ||  empty($originData["merchant_order_id"])) {
             return ["code"=>10008, "msg"=>"param is err"];
         }
         self::setHeaders($appId, $appSecret);
@@ -385,7 +400,7 @@ class CCPay
             "address" => $originData["address"],
             "value" => $originData["value"],
             "merchant_order_id" => $originData["merchant_order_id"],
-            "memo" => $originData["memo"]
+            "memo" => empty($originData["memo"])?:""
         ];
     }
 
@@ -440,7 +455,7 @@ class CCPay
         }
         self::setHeaders($appId, $appSecret);
 
-        $resource = json_encode(["token_id"=>$originData['token_id'],'address'=>$originData['address'], 'memo'=>$originData['memo']]);
+        $resource = json_encode(["token_id"=>$originData['token_id'],'address'=>empty($originData['address'])?:"", 'memo'=>empty($originData['memo'])?:""]);
 
         self::SHA256Hex($resource);
 
