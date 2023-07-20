@@ -39,6 +39,7 @@ class CCPay
         "NetworkFee" => "https://admin.ccpayment.com/ccpayment/v1/network/fee",
         "SupportCoin" => "https://admin.ccpayment.com/ccpayment/v1/coin/all",
         "OrderInfo" => "https://admin.ccpayment.com/ccpayment/v1/bill/info",
+        "PaymentAddress" => "https://admin.ccpayment.com/ccpayment/v1/payment/address/get",
     ];
 
 
@@ -63,7 +64,7 @@ class CCPay
      * $originData = [
          * "remark"=>"",
          * "token_id"=>"8e5741cf-6e51-4892-9d04-3d40e1dd0128",// required
-         * "amount"=>"0.5", // required
+         * "product_price"=>"0.5", // required
          * "merchant_order_id"=>"3735077979050379", // merchant order, todo required
          * "denomination_currency"=> "USD" // default USD
      * ];
@@ -108,7 +109,7 @@ class CCPay
         return [
             "remark" => $originData["remark"],
             "token_id" => $originData["token_id"],
-            "amount" => $originData["amount"],
+            "amount" => isset($originData["amount"])?:"",
             "product_price" => $originData["product_price"],
             "merchant_order_id" => $originData["merchant_order_id"],
             "denominated_currency" => $originData["denominated_currency"] // 默认USD
@@ -239,10 +240,10 @@ class CCPay
             The validity period of the order.It is recommended that the validity period uploaded by the merchant should be less than the actual validity period of the merchant's order,
     due to the fact that it may take some time for the transaction on the chain to arrive. BTC will arrive within 24 hours and other tokens will usually arrive within 30 minutes.Unless the merchant specifies a validity period for the order,
     the order validity period will be set to 24 hours by default, and there is a maximum validity period of 10 days.
-         * "valid_timestamp"=>45566, // int
+         * "order_valid_period"=>45566, // int
          * "product_name"=>"test", //Merchandise name todo required
          * "return_url"=>"https://cwallet.com/pay/callback", // Payment successfully jump address
-         * "amount"=>"0.5",// Amount of Merchant's orders  (in USD by default, cannot exceed 2 decimal places)， todo required
+         * "product_price"=>"0.5",// Amount of Merchant's orders  (in USD by default, cannot exceed 2 decimal places)， todo required
          * "merchant_order_id"=>"3735077979050379", // Merchant order todo  required
      * ];
      * @param string $appId
@@ -278,9 +279,9 @@ class CCPay
     {
         return [
             "return_url" => $originData["return_url"],
-            "valid_timestamp" => $originData["valid_timestamp"],
+            "valid_timestamp" => isset($originData["valid_timestamp"])?:0,
             "order_valid_period" => $originData["order_valid_period"],
-            "amount" => $originData["amount"],
+            "amount" => isset($originData["amount"])?:"",
             "product_price" => $originData["product_price"],
             "merchant_order_id" => $originData["merchant_order_id"],
             "product_name" => $originData["product_name"]
@@ -288,7 +289,7 @@ class CCPay
     }
 
     /**
-     * webhook 回调
+     * todo deprecate
      * http->header["Appid"]、header["Timestamp"]、header["Sign"]、
      * body：
        {
@@ -360,7 +361,7 @@ class CCPay
     public static function Withdraw(array $originData, string $appId, string $appSecret): array
     {
 
-        if ($originData["token_id"] == "" || $originData["value"] == "" || $originData["address"] == "" || $originData["merchant_order_id"] == "") {
+        if (empty($originData["token_id"]) == "" || empty($originData["value"]) || empty($originData["address"]) ||  empty($originData["merchant_order_id"])) {
             return ["code"=>10008, "msg"=>"param is err"];
         }
         self::setHeaders($appId, $appSecret);
@@ -430,7 +431,7 @@ class CCPay
      */
     public static function NetworkFee(array $originData,string $appId, string $appSecret): array
     {
-        if ($originData["token_id"] == "" ) {
+        if ( empty($originData["token_id"])) {
             return ["code"=>10008, "msg"=>"param is err"];
         }
         self::setHeaders($appId, $appSecret);
@@ -442,6 +443,13 @@ class CCPay
         return self::SendRequest(self::$urls["NetworkFee"], $resource);
     }
 
+    /**
+     * @param array $merchantOrderIds // Merchant Order ID, max limit 100. Pass only one type of order id, either deposit OR withdrawal. DO NOT pass both deposit and withdrawal order ids in one request
+    Responses
+     * @param string $appId
+     * @param string $appSecret
+     * @return array
+     */
     public static function OrderInfo(array $merchantOrderIds ,string $appId, string $appSecret): array
     {
         if ( empty($merchantOrderIds)) {
@@ -468,6 +476,38 @@ class CCPay
 
         return self::SendRequest(self::$urls["SupportCoin"]);
     }
+    /**
+     * @param array $originData
+     *  * $originData = [
+     *      "user_id"=>"", //required,User ID, unique identification
+     *      "chain"=>"", // required,Blockchain network, unique identification, https://docs.google.com/spreadsheets/d/1YKY-pxCdqer1IurgEkyNqW0xIj7EmtfX3rILoJqkKgw/edit#gid=0 Click here to check chain list
+     *      "notify_url"=>"",// The URL address will be notified via a POST request when the order status changes. Ensure the URL is accessible to receive notifications from the payment platform.
+     * ]
+     * @param string $appId
+     * @param string $appSecret
+     * @return array
+     * {
+        "code": 10000,
+        "msg": "success",
+        "data": {
+            "address": "TYWnk1EGALQyYst2yFSd29QQQTEkuKMbyt",//The corresponds to the chain address of the network
+            "memo": "", // Tag data of Memo coins, used to label and identify user addresses
+        }
+    }
+     */
+    public static function PaymentAddress(array $originData ,string $appId, string $appSecret): array
+    {
+        if ( empty($originData) || empty($originData['user_id']) || empty($originData['chain'])) {
+            return ["code"=>10008, "msg"=>"param is err"];
+        }
+        self::setHeaders($appId, $appSecret);
+        $resource = json_encode($originData);
+
+        self::SHA256Hex($resource);
+
+        return self::SendRequest(self::$urls["PaymentAddress"], $resource);
+    }
+
     /**
      * @param string $url
      * @param string $data
@@ -506,111 +546,6 @@ class CCPay
         self::$headers[self::SIGN] = $re;
         return $re;
     }
-
-
-    /**
-     * 通过RSA非对称加密 创建订单
-     * $originData = [
-         * "remark"=>"",
-         * "token_id"=>"8e5741cf-6e51-4892-9d04-3d40e1dd0128",
-         * "chain"=>"TRX",
-         * "amount"=>"0.5",
-         * "contract"=>"TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-         * "merchant_order_id"=>"3735077979050379",
-         * "fiat_currency": "USD" // 默认USD
-     * ];
-     * deprecated
-     * @throws ErrorException
-     */
-    public static function CreateOrderWithRSA(array $originData, string $privateFile, string $appId, string $appSecret)
-    {
-        // 参数验证
-
-        self::setHeaders($appId, $appSecret);
-        // 读取私钥
-        if (!file_exists($privateFile)) {
-            throw new \ErrorException("private file path is no exist", 10001);
-        }
-        $privateKey = file_get_contents($privateFile);
-
-        if (!$privateKey) {
-            throw new \ErrorException("private key is unavailable", 10002);
-        }
-
-        $data = self::getCreateOrderData($originData);
-
-        $resource = self::getCreateOrderSignStr($data, $appSecret);
-
-        $signature = "";
-
-        $privateKey = openssl_get_privatekey($privateKey);
-
-        $res = openssl_sign($resource, $signature, $privateKey, OPENSSL_ALGO_SHA256);
-
-        openssl_pkey_free($privateKey);
-
-        $sign = base64_encode($signature);
-
-        if (!$res) {
-            throw new \ErrorException("String Sign Failed", 10003);
-        }
-
-
-        // 发起请求
-        return self::SendRequest(self::$urls["CreateOrderUrl"], $data);
-    }
-
-
-    /**
-     * 通过RSA非对称加密 获取url
-     * $originData = [
-         * "valid_timestamp"=>45566,
-         * "product_name"=>"test",
-         * "return_url"=>"https://cwallet.com/pay/callback",
-         * "amount"=>"0.5",
-         * "merchant_order_id"=>"3735077979050379",
-     * ];
-     * deprecated
-     * @throws ErrorException
-     */
-    public static function CheckoutUrlWithRSA(array $originData, string $privateFile, string $appId, string $appSecret)
-    {
-        // 参数验证
-
-        self::setHeaders($appId, $appSecret);
-        // 读取私钥
-        if (!file_exists($privateFile)) {
-            throw new \ErrorException("private file path is no exsit", 10001);
-        }
-        $privateKey = file_get_contents($privateFile);
-
-        if (!$privateKey) {
-            throw new \ErrorException("private key is unavailable", 10002);
-        }
-
-        $data = self::getCheckoutUrlData($originData);
-
-        $resource = self::getCheckoutUrlSignStr($data, $appSecret);
-
-        $signature = "";
-
-        $privateKey = openssl_get_privatekey($privateKey);
-
-        $res = openssl_sign($resource, $signature, $privateKey, OPENSSL_ALGO_SHA256);
-
-        openssl_pkey_free($privateKey);
-
-        $sign = base64_encode($signature);
-
-        if (!$res) {
-            throw new \ErrorException("String Sign Failed", 10003);
-        }
-
-
-        // 发起请求
-        return self::SendRequest(self::$urls["CheckoutUrl"], $data);
-    }
-
 }
 
 
