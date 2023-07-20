@@ -245,6 +245,8 @@ class CCPay
          * "return_url"=>"https://cwallet.com/pay/callback", // Payment successfully jump address
          * "product_price"=>"0.5",// Amount of Merchant's orders  (in USD by default, cannot exceed 2 decimal places)， todo required
          * "merchant_order_id"=>"3735077979050379", // Merchant order todo  required
+         * "notify_url"=>"", // The URL address will be notified via a POST request when the order status changes. Ensure the URL is accessible to receive notifications from the payment platform.
+           "custom_value"=>"",// Merchant custom field - This custom value field will be returned in transaction status notification.
      * ];
      * @param string $appId
      * @param string $appSecret
@@ -260,7 +262,7 @@ class CCPay
      */
     public static function CheckoutUrl(array $originData, string $appId, string $appSecret): array
     {
-        if ($originData["product_name"] == ""  || ($originData["amount"] == "" && $originData["product_price"] == "")  || $originData["merchant_order_id"] == "") {
+        if (empty($originData["product_name"])  || ( empty($originData["amount"]) &&  empty($originData["product_price"]))  || $originData["merchant_order_id"]) {
             return ["code"=>10008, "msg"=>"param is err"];
         }
 
@@ -278,13 +280,15 @@ class CCPay
     public static function getCheckoutUrlData(array $originData): array
     {
         return [
-            "return_url" => $originData["return_url"],
+            "return_url" => empty($originData["return_url"])?:"",
             "valid_timestamp" => isset($originData["valid_timestamp"])?:0,
             "order_valid_period" => $originData["order_valid_period"],
             "amount" => isset($originData["amount"])?:"",
             "product_price" => $originData["product_price"],
             "merchant_order_id" => $originData["merchant_order_id"],
-            "product_name" => $originData["product_name"]
+            "product_name" => $originData["product_name"],
+            "notify_url" => empty($originData["notify_url"])?:"",
+            "custom_value" => empty($originData["custom_value"])?:""
         ];
     }
 
