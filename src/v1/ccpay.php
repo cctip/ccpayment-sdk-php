@@ -111,15 +111,15 @@ class CCPay
     public static function getCreateOrderData(array $originData): array
     {
         return [
-            "remark" => empty($originData["remark"])?:"",
-            "order_valid_period" => empty($originData["order_valid_period"])?:0,
+            "remark" => $originData["remark"]??"",
+            "order_valid_period" => $originData["order_valid_period"]??0,
             "token_id" => $originData["token_id"],
-            "amount" => isset($originData["amount"])?:"",
+            "amount" => $originData["amount"]??"",
             "product_price" => $originData["product_price"],
             "merchant_order_id" => $originData["merchant_order_id"],
             "denominated_currency" => $originData["denominated_currency"], // 默认USD
-            "notify_url" => empty($originData["notify_url"])?:"",
-            "custom_value" => empty($originData["custom_value"])?:""
+            "notify_url" => $originData["notify_url"]??"",
+            "custom_value" => $originData["custom_value"]??""
         ];
     }
 
@@ -287,15 +287,15 @@ class CCPay
     public static function getCheckoutUrlData(array $originData): array
     {
         return [
-            "return_url" => empty($originData["return_url"])?:"",
-            "valid_timestamp" => isset($originData["valid_timestamp"])?:0,
-            "order_valid_period" => empty($originData["order_valid_period"])?:0,
-            "amount" => isset($originData["amount"])?:"",
-            "product_price" => isset($originData["product_price"])?:"",
+            "return_url" => $originData["return_url"]??"",
+            "valid_timestamp" => $originData["valid_timestamp"]??0,
+            "order_valid_period" => $originData["order_valid_period"]??0,
+            "amount" => $originData["amount"]??"",
+            "product_price" => $originData["product_price"]??"",
             "merchant_order_id" => $originData["merchant_order_id"],
             "product_name" => $originData["product_name"],
-            "notify_url" => empty($originData["notify_url"])?:"",
-            "custom_value" => empty($originData["custom_value"])?:""
+            "notify_url" => $originData["notify_url"]??"",
+            "custom_value" => $originData["custom_value"]??""
         ];
     }
 
@@ -400,7 +400,8 @@ class CCPay
             "address" => $originData["address"],
             "value" => $originData["value"],
             "merchant_order_id" => $originData["merchant_order_id"],
-            "memo" => empty($originData["memo"])?:""
+            "merchant_pays_fee" => $originData["merchant_pays_fee"] ?? false,
+            "memo" => $originData["memo"]??""
         ];
     }
 
@@ -455,7 +456,7 @@ class CCPay
         }
         self::setHeaders($appId, $appSecret);
 
-        $resource = json_encode(["token_id"=>$originData['token_id'],'address'=>empty($originData['address'])?:"", 'memo'=>empty($originData['memo'])?:""]);
+        $resource = json_encode(["token_id"=>$originData['token_id'],'address'=>$originData['address']??"", 'memo'=>$originData['memo']??""]);
 
         self::SHA256Hex($resource);
 
