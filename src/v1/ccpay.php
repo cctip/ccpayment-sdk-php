@@ -40,6 +40,7 @@ class CCPay
         "SupportCoin" => "https://admin.ccpayment.com/ccpayment/v1/coin/all",
         "OrderInfo" => "https://admin.ccpayment.com/ccpayment/v1/bill/info",
         "PaymentAddress" => "https://admin.ccpayment.com/ccpayment/v1/payment/address/get",
+        "GetChainHeightInfo" => "https://admin.ccpayment.com/ccpayment/v1/get/network/height/info",
     ];
 
 
@@ -526,6 +527,33 @@ class CCPay
         self::SHA256Hex($resource);
 
         return self::SendRequest(self::$urls["PaymentAddress"], $resource);
+    }
+
+    /**
+     *
+     * @param string $appId
+     * @param string $appSecret
+     * @return array
+     * {
+        "code": 10000,
+        "msg": "success",
+        "data": [
+            {
+            "chain": "BCH", // The network's unique identification on the blockchain
+            "current_chain_height": 803434, // Current block height of the network
+            "tx_confirm_block_num": 0 // The number of block confirmations required for the trasnaction on the blockchain
+             "block_rate":0    // The time gap of every blocks, in seconds
+            }
+     *   ]
+     * }
+     */
+    public static function GetChainHeightInfo(string $appId, string $appSecret): array
+    {
+        self::setHeaders($appId, $appSecret);
+
+        self::SHA256Hex();
+
+        return self::SendRequest(self::$urls["GetChainHeightInfo"]);
     }
 
     /**
