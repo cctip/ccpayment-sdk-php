@@ -565,7 +565,7 @@ class CCPay
     {
         $resp = Requests::post($url, self::$headers, $data);
 
-        if ($resp->status_code != http_response_code(200)) {
+        if ($resp->status_code != 200) {
             return ["code"=>10005,"msg"=>"http code error"];
         }
 
