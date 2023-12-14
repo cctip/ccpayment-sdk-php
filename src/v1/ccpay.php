@@ -375,6 +375,9 @@ class CCPay
         "data": {
             "order_id": "202301090616511612332555323101184",
             "network_fee": "0",
+            "net_receivable": "0",
+            "network_coin_id": "0",
+            "network_crypto": "0",
         }
     }
      */
