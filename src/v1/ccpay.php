@@ -427,17 +427,17 @@ class CCPay
     }
 
     /**
-     * @param string $tokenID
+     * @param string $coinId
      * @param string $appId
      * @param string $appSecret
      * @return array
      */
-    public static function Assets(string $appId, string $appSecret,string $tokenID = ""): array
+    public static function Assets(string $appId, string $appSecret,string $coinId = ""): array
     {
 
         self::setHeaders($appId, $appSecret);
 
-        $resource = json_encode(["token_id"=>$tokenID]);
+        $resource = json_encode(["coin_id"=>$coinId]);
 
         self::SHA256Hex($resource);
 
