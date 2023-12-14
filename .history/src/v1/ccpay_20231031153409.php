@@ -36,7 +36,7 @@ class CCPay
         "Withdraw" => "https://admin.ccpayment.com/ccpayment/v1/withdraw",
         "CheckUser" => "https://admin.ccpayment.com/ccpayment/v1/check/user",
         "Assets" => "https://admin.ccpayment.com/ccpayment/v1/assets",
-        "NetworkFee" => "https://admin.ccpayment.com/ccpayment/v1/network/fee",
+        "NetworkFee" => "https://ccpayment.com/ccpayment/v1/network/fee",
         "SupportCoin" => "https://admin.ccpayment.com/ccpayment/v1/coin/all",
         "OrderInfo" => "https://admin.ccpayment.com/ccpayment/v1/bill/info",
         "PaymentAddress" => "https://admin.ccpayment.com/ccpayment/v1/payment/address/get",
@@ -427,17 +427,17 @@ class CCPay
     }
 
     /**
-     * @param string $coinId
+     * @param string $tokenID
      * @param string $appId
      * @param string $appSecret
      * @return array
      */
-    public static function Assets(string $appId, string $appSecret,string $coinId = ""): array
+    public static function Assets(string $appId, string $appSecret,string $tokenID = ""): array
     {
 
         self::setHeaders($appId, $appSecret);
 
-        $resource = json_encode(["coin_id"=>$coinId]);
+        $resource = json_encode(["token_id"=>$tokenID]);
 
         self::SHA256Hex($resource);
 
